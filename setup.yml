@@ -46,8 +46,12 @@
       command: chdir=/tmp creates=/tmp/opennebula-4.0.1-1/opennebula_4.0.1-1_amd64.deb tar xf Ubuntu-12.10-opennebula-4.0.1-1.tar.gz
 
     ## install and configure frontend machine
-    - name: install debian packages (need to only install a subset)
-      shell: creates=/etc/one/oned.conf dpkg -i /tmp/opennebula-4.0.1-1/*.deb && apt-get install -f -y
+    - name: install debian packages
+      shell: creates=/etc/one/oned.conf dpkg -i /tmp/opennebula-4.0.1-1/*.deb
+      ignore_errors: True
+
+    - name: fix up dependencies
+      command: apt-get install -y -f
 
     - name: install dependancies
       apt: name=$item state=present
@@ -73,6 +77,11 @@
 
     - name: install sunstone configruation
       template: src=templates/sunstone-server.conf dest=/etc/one/sunstone-server.conf
+      notify:
+        - restart sunstone
+
+    - name: start sunstone
+      service: name=opennebula-sunstone state=started enabled=yes
 
     ## install public/private keys, this should be shared across the ONE frontend and nodes in the oneadmin account
     - name: authorized_keys for oneadmin
@@ -84,5 +93,6 @@
     - name: install insecure config for oneadmin
       action: copy src=files/insecure_config dest=/var/lib/one/.ssh/config owner=oneadmin group=cloud mode=0600
 
-    ## install kvm node
-
+  handlers:
+    - name: restart sunstone
+      service: name=opennebula-sunstone state=restarted
