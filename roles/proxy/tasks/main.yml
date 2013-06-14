@@ -16,3 +16,7 @@
 
   - name: write /root/.pip/pip.conf
     template: src=../templates/pip.j2 dest=/root/.pip/pip.conf owner=root
+
+  - name: Configure gemrc for root
+    template: src=gemrc.j2 dest=/root/.gemrc
+    tags: configuration
