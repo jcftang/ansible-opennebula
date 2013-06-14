@@ -1,0 +1,46 @@
+---
+- hosts: opennebula
+  sudo: True
+
+  vars:
+
+  pre_tasks:
+    ## install public/private keys
+    - name: authorized_keys for root
+      authorized_key: user=root key="ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA6NF8iallvQVp22WDkTkyrtvp9eWW6A8YVr+kz4TjGYe7gHzIw+niNltGEFHzD8+v1I2YJ6oXevct1YeS0o9HZyN1Q9qgCgzUFtdOKLv6IedplqoPkcmF0aYet2PkEDo3MlTBckFXPITAMzF8dJSIFo9D8HfdOV0IAdx4O7PtixWKn5y2hMNG0zQPyUecp4pzC6kivAIhyfHilFR61RGL+GPXQ2MWZWFYbAGjyiYJnAmCP3NOTd0jMZEnDkbUvxhMmBYSdETk1rRgm+R4LOzFUGaHqHDLKLX+FIPKcF96hrucXzcWyLbIbEgE98OHlnVYCzRdK8jlqm8tehUc9c9WhQ== vagrant insecure public key" state=present
+
+    - name: install insecure private key for root
+      action: copy src=files/insecure_private_key dest=/root/.ssh/id_rsa owner=root group=root mode=0600
+
+    - name: install insecure config for root
+      action: copy src=files/insecure_config dest=/root/.ssh/config owner=root group=root mode=0600
+
+    - name: authorized_keys for vagrant
+      authorized_key: user=vagrant key="ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA6NF8iallvQVp22WDkTkyrtvp9eWW6A8YVr+kz4TjGYe7gHzIw+niNltGEFHzD8+v1I2YJ6oXevct1YeS0o9HZyN1Q9qgCgzUFtdOKLv6IedplqoPkcmF0aYet2PkEDo3MlTBckFXPITAMzF8dJSIFo9D8HfdOV0IAdx4O7PtixWKn5y2hMNG0zQPyUecp4pzC6kivAIhyfHilFR61RGL+GPXQ2MWZWFYbAGjyiYJnAmCP3NOTd0jMZEnDkbUvxhMmBYSdETk1rRgm+R4LOzFUGaHqHDLKLX+FIPKcF96hrucXzcWyLbIbEgE98OHlnVYCzRdK8jlqm8tehUc9c9WhQ== vagrant insecure public key" state=present
+
+    - name: Install dependancies
+      apt: name=$item state=present update-cache=yes
+      with_items:
+        - python-software-properties
+        - python-virtualenv
+        - python-apt
+      environment:
+        http_proxy: http://134.226.112.43:8080
+        https_proxy: http://134.226.112.43:8080
+
+  roles:
+    - role: proxy
+      proxy_server: proxy.tchpc.tcd.ie
+      proxy_port: 8080
+      socks_server: 134.226.112.43
+      socks_port: 1080
+
+    - role: common
+
+  tasks:
+    ## common step to get files on to system
+    - name: copy up binaries
+      copy: src=files/Ubuntu-12.10-opennebula-4.0.1-1.tar.gz dest=/tmp/Ubuntu-12.10-opennebula-4.0.1-1.tar.gz
+
+    - name: unpack files
+      command: chdir=/tmp creates=/tmp/opennebula-4.0.1-1/opennebula_4.0.1-1_amd64.deb tar xf Ubuntu-12.10-opennebula-4.0.1-1.tar.gz
