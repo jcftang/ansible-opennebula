@@ -1,0 +1,34 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |global_config|
+  # All Vagrant configuration is done here. The most common configuration
+  # options are documented and commented below. For a complete reference,
+  # please see the online documentation at vagrantup.com.
+
+  global_config.vm.box = "precise64"
+  global_config.vm.box_url = "http://thammuz.tchpc.tcd.ie/mirrors/boxes/precise64.box"
+
+  global_config.vm.define(:opennebula) do |config|
+    config.vm.network :private_network, ip: "192.168.206.110"
+    config.vm.hostname = "opennebula.localhost"
+
+#    config.vm.provision :ansible do |ansible|
+#      # point Vagrant at the location of your playbook you want to run
+#      ansible.playbook =  [ "playbooks/setup.yml" ]
+#
+#      # the Vagrant VM will be put in this host group change this should
+#      # match the host group in your playbook you want to test
+#      ansible.hosts = [ "opennebula" ]
+#    end
+
+    config.vm.provider :virtualbox do |v|
+			v.customize [
+				"modifyvm", :id,
+				"--name", "opennebula VM",
+				"--memory", "1024",
+			]
+    end
+  end
+
+end
