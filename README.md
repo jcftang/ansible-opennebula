@@ -24,3 +24,14 @@ kvm will be used.
 The bridge configuration assumes that eth0 is to be used for br0 (it takes
 the default networking information from ansible), this configuration is
 stored in "playbooks/setup-bridge.yml"
+
+## Typical setup process
+
+* install machines with basic ubuntu server install (use preseed or kickstart to automate it)
+* create a hosts file
+* set the root passwords (if they are not secure) on the machines to be the same and upload your public ssh-key
+  - ansible-playbook -i hosts playbook/setup-root-passwd.yml -k
+  - ansible-playbook -i hosts playbook/setup-upload-public-key-to-root.yml -k
+* run the playbooks to deploy the front-end and compute nodes
+  - look at playbooks/setup-bridge.yml if you are interested in configuring a bridge
+* once the base system is up, the admin can go to the sunstone interface at http://opennebula-frontend:9869/
