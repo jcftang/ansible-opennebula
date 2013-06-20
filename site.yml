@@ -104,6 +104,11 @@
     - name: fix up dependencies
       command: apt-get install -y -f
 
+    - name: install kvm dependancies
+      gem: name=$item state=present
+      with_items:
+        - qemu
+
     ## install public/private keys, this should be shared across the ONE frontend and nodes in the oneadmin account
     - name: Install authorized_keys for oneadmin
       authorized_key: user=oneadmin key="{{ lookup('file', 'private/id_rsa.pub') }}" state=present

@@ -6,14 +6,15 @@ auto lo
 iface lo inet loopback
 
 # The primary network interface
-iface {{ ansible_default_ipv4.alias }} inet manual
+iface {{ default_if }} inet manual
 
 auto br0
 iface br0 inet static
 address {{ ansible_default_ipv4.address }}
 netmask {{ ansible_default_ipv4.netmask }}
-bridge_ports {{ ansible_default_ipv4.alias }}
+bridge_ports {{ default_if }}
 bridge_stp off
 bridge_fd 0
 bridge_maxwait 0
 gateway {{ ansible_default_ipv4.gateway }}
+dns-nameservers 134.226.112.8
