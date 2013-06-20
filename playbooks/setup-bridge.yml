@@ -1,0 +1,8 @@
+# for ubuntu 12.04 hosts, run this playbook as... "ansible-playbook -i hosts PLAYBOOK.yml -k"
+---
+- hosts: opennebula_compute
+  user: root
+
+  tasks:
+    - name: Setup bridge br0 where eth0 connects to this bridge
+      template: src=../templates/interfaces.br0 dest=/etc/network/interfaces

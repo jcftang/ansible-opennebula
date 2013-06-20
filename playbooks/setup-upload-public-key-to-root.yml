@@ -1,0 +1,8 @@
+# for ubuntu 12.04 hosts, run this playbook as... "ansible-playbook -i hosts PLAYBOOK.yml -k"
+---
+- hosts: all
+  user: root
+
+  tasks:
+    - name: Upload public ssh key
+      authorized_key: user=root key="{{ lookup('file','~/.ssh/id_rsa.pub') }}"
