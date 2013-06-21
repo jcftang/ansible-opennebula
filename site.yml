@@ -33,6 +33,24 @@
     - name: /etc/hosts
       template: src=templates/hosts dest=/etc/hosts owner=root group=root
 
+    - name: Generate_keys for root
+      user: name=root generate_ssh_key=yes
+
+    - name: Fetch generated public key from frontend root account
+      fetch: src=$item dest=private/root/ flat=yes
+      with_items:
+        - /root/.ssh/id_rsa.pub
+        - /root/.ssh/id_rsa
+
+    - name: Upload ssh keypair and config from the frontend node for root account
+      copy: src=private/root/$item dest=/root/.ssh/$item owner=root group=root mode=0600
+      with_items:
+        - id_rsa.pub
+        - id_rsa
+
+    - name: Install authorized_keys for root
+      authorized_key: user=root key="{{ lookup('file', 'private/root/id_rsa.pub') }}" state=present
+
 - hosts: opennebula_frontend
   user: root
 

@@ -20,7 +20,7 @@
   authorized_key: user=oneadmin key="{{ lookup('file', '../../../private/id_rsa.pub') }}" state=present
 
 - name: Upload ssh keypair and config from the frontend node
-  copy: src=private/$item dest=/var/lib/one/.ssh/$item owner=oneadmin group=cloud mode=0600
+  copy: src=../../../private/$item dest=/var/lib/one/.ssh/$item owner=oneadmin group=cloud mode=0600
   with_items:
     - id_rsa.pub
     - id_rsa
