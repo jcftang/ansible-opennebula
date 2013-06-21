@@ -19,6 +19,7 @@
     - rake
     - libxml2-dev
     - libxslt1-dev
+    - nfs-kernel-server
 
 - name: install ruby dependancies
   gem: name=$item state=present

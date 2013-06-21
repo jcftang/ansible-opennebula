@@ -1,0 +1,13 @@
+NAME = "{{ vnet_name }}"
+TYPE = RANGED
+
+BRIDGE = br0
+
+NETWORK_ADDRESS = {{ vnet_network_address }}
+NETWORK_MASK = {{ vnet_network_mask }}
+
+GATEWAY = {{ vnet_gateway }}
+DNS = {{ vnet_dns }}
+
+IP_START = {{ vnet_ip_start }}
+IP_END = {{ vnet_ip_end }}
