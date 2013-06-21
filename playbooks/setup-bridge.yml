@@ -8,3 +8,7 @@
   tasks:
     - name: Setup bridge br0 where eth0 connects to this bridge
       template: src=../templates/interfaces.br0 dest=/etc/network/interfaces
+
+  handlers:
+    - name: restart networking
+      service: name=networking state=restarted
