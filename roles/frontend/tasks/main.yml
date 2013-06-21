@@ -46,6 +46,7 @@
   with_items:
     - /var/lib/one/.ssh/id_rsa.pub
     - /var/lib/one/.ssh/id_rsa
+    - /var/lib/one/.one/one_auth
 
 - name: Install insecure config for oneadmin
   action: copy src=files/insecure_config dest=/var/lib/one/.ssh/config owner=oneadmin group=cloud mode=0600
