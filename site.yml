@@ -30,6 +30,9 @@
     - name: unpack files
       command: chdir=/tmp creates=/tmp/opennebula-4.0.1-1/opennebula_4.0.1-1_amd64.deb tar xf Ubuntu-12.10-opennebula-4.0.1-1.tar.gz
 
+    - name: /etc/hosts
+      template: src=templates/hosts dest=/etc/hosts owner=root group=root
+
 - hosts: opennebula_frontend
   user: root
 
