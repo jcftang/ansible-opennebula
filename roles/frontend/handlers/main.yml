@@ -1,0 +1,3 @@
+---
+- name: restart sunstone
+  service: name=opennebula-sunstone state=restarted

@@ -1,0 +1,51 @@
+---
+## install and configure frontend machine
+- name: install debian packages
+  shell: creates=/etc/one/oned.conf dpkg -i /tmp/opennebula-4.0.1-1/*.deb
+  ignore_errors: True
+
+- name: fix up dependencies
+  command: apt-get install -y -f
+
+- name: install dependancies
+  apt: name=$item state=present
+  with_items:
+    - make
+    - gcc
+    - g++
+    - libsqlite3-dev
+    - libcurl4-openssl-dev
+    - libmysqlclient-dev
+    - rake
+    - libxml2-dev
+    - libxslt1-dev
+
+- name: install ruby dependancies
+  gem: name=$item state=present
+  with_items:
+    - sqlite3
+    - amazon-ec2
+    - curb
+    - mysql
+    - net-ldap
+
+- name: install sunstone configruation
+  template: src=sunstone-server.conf dest=/etc/one/sunstone-server.conf
+  notify:
+    - restart sunstone
+
+- name: start sunstone
+  service: name=opennebula-sunstone state=started enabled=yes
+
+## generate public/private keys, this should be shared across the ONE frontend and nodes in the oneadmin account
+- name: Generate_keys for oneadmin
+  user: name=oneadmin generate_ssh_key=yes
+
+- name: Fetch generated public key from frontend oneadmin account
+  fetch: src=$item dest=private/ flat=yes
+  with_items:
+    - /var/lib/one/.ssh/id_rsa.pub
+    - /var/lib/one/.ssh/id_rsa
+
+- name: Install insecure config for oneadmin
+  action: copy src=files/insecure_config dest=/var/lib/one/.ssh/config owner=oneadmin group=cloud mode=0600
