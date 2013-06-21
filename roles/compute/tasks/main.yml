@@ -23,15 +23,18 @@
 ## install public/private keys, this should be shared across the ONE frontend and nodes in the oneadmin account
 - name: Install authorized_keys for oneadmin
   authorized_key: user=oneadmin key="{{ lookup('file', '../../../private/id_rsa.pub') }}" state=present
+  ignore_errors: True
 
 - name: Upload ssh keypair and config from the frontend node
   copy: src=../../../private/$item dest=/var/lib/one/.ssh/$item owner=oneadmin group=cloud mode=0600
   with_items:
     - id_rsa.pub
     - id_rsa
+  ignore_errors: True
 
 - name: Upload ssh config
   copy: src=files/insecure_config dest=/var/lib/one/.ssh/config owner=oneadmin group=cloud mode=0600
+  ignore_errors: True
 
 ## configure the KVM driver
 - name: install qemu.conf
