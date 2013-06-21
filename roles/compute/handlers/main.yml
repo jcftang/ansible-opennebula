@@ -1,0 +1,6 @@
+---
+- name: restart udev
+  service: name=udev state=restarted
+
+- name: restart libvirt-bin
+  service: name=libvirt-bin state=restarted

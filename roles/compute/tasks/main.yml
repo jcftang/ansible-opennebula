@@ -1,0 +1,44 @@
+---
+## install kvm node
+- name: install debian packages
+  command: dpkg -i /tmp/opennebula-4.0.1-1/$item
+  with_items:
+    - opennebula-common_4.0.1-1_all.deb
+    - opennebula-node_4.0.1-1_all.deb
+  ignore_errors: True
+
+- name: fix up dependencies
+  command: apt-get install -y -f
+
+- name: install kvm dependancies
+  apt: name=$item state=present
+  with_items:
+    - qemu
+
+## install public/private keys, this should be shared across the ONE frontend and nodes in the oneadmin account
+- name: Install authorized_keys for oneadmin
+  authorized_key: user=oneadmin key="{{ lookup('file', '../../../private/id_rsa.pub') }}" state=present
+
+- name: Install insecure config for oneadmin
+  action: copy src=files/insecure_config dest=/var/lib/one/.ssh/config owner=oneadmin group=cloud mode=0600
+
+## configure the KVM driver
+- name: install qemu.conf
+  template: src=qemu.conf dest=/etc/libvirt/qemu.conf
+  notify:
+    - restart libvirt-bin
+
+- name: install libvirtd.conf
+  template: src=libvirtd.conf dest=/etc/libvirt/libvirtd.conf
+  notify:
+    - restart libvirt-bin
+
+- name: install libvirt-bin
+  template: src=libvirt-bin dest=/etc/default/libvirt-bin
+  notify:
+    - restart libvirt-bin
+
+- name: install udev rules
+  template: src=60-qemu-kvm.rules dest=/etc/udev/rules.d/60-qemu-kvm.rules
+  notify:
+    - restart udev
