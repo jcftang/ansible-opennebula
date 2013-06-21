@@ -105,7 +105,7 @@
       command: apt-get install -y -f
 
     - name: install kvm dependancies
-      gem: name=$item state=present
+      apt: name=$item state=present
       with_items:
         - qemu
 
