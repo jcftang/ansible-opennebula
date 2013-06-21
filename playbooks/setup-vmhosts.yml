@@ -1,0 +1,11 @@
+---
+- hosts: opennebula_frontend
+  user: root 
+
+  vars:
+
+  tasks:
+    - name: Setup vm hosts
+      command: su - oneadmin -c "onehost create $item --im kvm --vm kvm --net dummy"
+      with_items:
+        - ${groups.opennebula_compute}
