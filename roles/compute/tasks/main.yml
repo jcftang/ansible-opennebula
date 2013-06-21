@@ -24,7 +24,9 @@
   with_items:
     - id_rsa.pub
     - id_rsa
-    - config
+
+- name: Upload ssh config
+  copy: src=files/insecure_config dest=/var/lib/one/.ssh/config owner=oneadmin group=cloud mode=0600
 
 ## configure the KVM driver
 - name: install qemu.conf
