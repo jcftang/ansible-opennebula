@@ -48,8 +48,20 @@
         - id_rsa.pub
         - id_rsa
 
+    - name: Upload ssh config
+      copy: src=files/insecure_config dest=/root/.ssh/config owner=root group=root mode=0600
+
     - name: Install authorized_keys for root
       authorized_key: user=root key="{{ lookup('file', 'private/root/id_rsa.pub') }}" state=present
+
+    - name: Install ntp
+      apt: name=ntp state=present
+
+    - name: Install ntp.conf
+      template: src=templates/ntp.conf dest=/etc/ntp.conf
+
+    - name: Restart ntp service
+      service: name=ntp state=restarted
 
 - hosts: opennebula_frontend
   user: root
