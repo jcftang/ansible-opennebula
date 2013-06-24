@@ -20,6 +20,7 @@
     - libxml2-dev
     - libxslt1-dev
     - nfs-kernel-server
+    - qemu-utils
 
 - name: install ruby dependancies
   gem: name=$item state=present
