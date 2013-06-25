@@ -63,6 +63,9 @@
     - name: Restart ntp service
       service: name=ntp state=restarted
 
+    - name: Make sure idmapd.conf has correct domain
+      template: src=templates/idmapd.conf dest=/etc/idmapd.conf
+
 - hosts: opennebula_frontend
   user: root
 
