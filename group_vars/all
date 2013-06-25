@@ -1,3 +1,9 @@
 ---
 # Variables for opennebula
 host_group: opennebula
+
+mysql_root_password: opennebula
+
+opennebula_db: opennebula
+opennebula_db_user: opennebula
+opennebula_db_pass: opennebula

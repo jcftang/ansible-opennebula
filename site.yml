@@ -67,6 +67,7 @@
   user: root
 
   roles:
+    - mysql
     - frontend
 
 - hosts: opennebula_compute

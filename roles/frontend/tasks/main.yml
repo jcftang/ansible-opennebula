@@ -31,6 +31,13 @@
     - mysql
     - net-ldap
 
+- name: create db {{opennebula_db}}
+  action: mysql_db db={{opennebula_db}} state=present
+
+# usernames and passwords should be included from a file outside of this git-repo, for now this is developmental.
+- name: create user '{{opennebula_db_user}}' with password '{{opennebula_db_pass}}' for '{{opennebula_db}}' and grant all priveleges
+  action: mysql_user state=present name={{opennebula_db_user}} password={{opennebula_db_pass}} priv={{opennebula_db}}.*:ALL
+
 - name: copy ceph scripts
   copy: src=files/opennebula4.0-rbd-format2-transfer-datastore-drivers-v3.tar.gz dest=/tmp/opennebula4.0-rbd-format2-transfer-datastore-drivers-v3.tar.gz
 
