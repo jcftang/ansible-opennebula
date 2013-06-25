@@ -1,0 +1,9 @@
+NAME = "ceph"
+DS_MAD = ceph
+TM_MAD = ceph
+
+# the following line *must* be preset
+DISK_TYPE = RBD
+
+POOL_NAME = one
+HOST = {{ ceph_frontend }} 
