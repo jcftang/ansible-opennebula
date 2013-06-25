@@ -35,7 +35,7 @@
 
   tasks:
     - name: Create /var/lib/one mount
-      mount: name=/var/lib/one src="dri-vm00.tchpc.tcd.ie:/one" fstype=nfs4 opts="proto=tcp,port=2049" state=present
+      mount: name=/var/lib/one src="192.168.30.1:/one" fstype=nfs4 opts="proto=tcp,port=2049" state=present
 
     - name: Mount /var/lib/one
-      mount: name=/var/lib/one src="dri-vm00.tchpc.tcd.ie:/one" fstype=nfs4 opts="proto=tcp,port=2049" state=mounted
+      mount: name=/var/lib/one src="192.168.30.1:/one" fstype=nfs4 opts="proto=tcp,port=2049" state=mounted
