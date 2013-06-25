@@ -1,0 +1,9 @@
+# for ubuntu 12.04 hosts, run this playbook as... "ansible-playbook -i hosts PLAYBOOK.yml -k"
+---
+- hosts:
+    - opennebula_compute
+  user: root
+
+  tasks:
+    - name: Setup apparmor for libvirt with cephx
+      template: src=../templates/libvirt-qemu dest=/etc/apparmor.d/abstractions/libvirt-qemu
