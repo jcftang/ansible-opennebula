@@ -9,3 +9,11 @@ opennebula_db_user: opennebula
 opennebula_db_pass: opennebula
 
 ceph_frontend: localhost
+
+vnet_name: private
+vnet_network_address: 192.168.0.0
+vnet_network_mask: 255.255.255.0
+vnet_gateway: 192.168.0.1
+vnet_dns: 192.168.0.1
+vnet_ip_start: 192.168.0.2
+vnet_ip_end: 192.168.0.254
