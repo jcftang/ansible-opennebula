@@ -22,7 +22,7 @@
       mount: name=/export/one src=/var/lib/one fstype=none opts=bind state=mounted
 
     - name: Setup NFS exports
-      template: src=../templates/exports dest=/etc/exports.1
+      template: src=../templates/exports dest=/etc/exports
       notify:
         - restart nfs-kernel-server
 

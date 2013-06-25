@@ -10,6 +10,6 @@
 #
 
 {% for hosts in groups['opennebula_compute'] %}
-/export     {{ hostvars[hosts]['ansible_storagebr0']['ipv4']['address'] }}/32(rw,fsid=0,insecure,no_subtree_check,async)
-/export/one {{ hostvars[hosts]['ansible_storagebr0']['ipv4']['address'] }}/32(rw,nohide,insecure,no_subtree_check,async)
+/export     {{ hostvars[hosts]['ansible_storagebr0']['ipv4']['address'] }}(rw,fsid=0,insecure,no_subtree_check,async)
+/export/one {{ hostvars[hosts]['ansible_storagebr0']['ipv4']['address'] }}(rw,nohide,insecure,no_subtree_check,async)
 {% endfor %}
