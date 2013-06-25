@@ -1,0 +1,41 @@
+# for ubuntu 12.04 hosts, run this playbook as... "ansible-playbook -i hosts PLAYBOOK.yml -k"
+---
+- hosts:
+    - opennebula_frontend
+    - opennebula_compute
+  user: root
+
+  ## this is a blank play to snag some variables for setting up the nfs exports
+  tasks:
+    - name: Make sure idmapd.conf has correct domain
+      template: src=../templates/idmapd.conf dest=/etc/idmapd.conf
+
+- hosts:
+    - opennebula_frontend
+  user: root
+
+  tasks:
+    - name: Create /exports/one bind mount
+      mount: name=/export/one src=/var/lib/one fstype=none opts=bind state=present
+
+    - name: Mount /exports/one
+      mount: name=/export/one src=/var/lib/one fstype=none opts=bind state=mounted
+
+    - name: Setup NFS exports
+      template: src=../templates/exports dest=/etc/exports.1
+      notify:
+        - restart nfs-kernel-server
+
+  handlers:
+    - name: restart nfs-kernel-server
+      service: name=nfs-kernel-server state=restarted
+
+- hosts: opennebula_compute
+  user: root
+
+  tasks:
+    - name: Create /var/lib/one mount
+      mount: name=/var/lib/one src="dri-vm00.tchpc.tcd.ie:/one" fstype=nfs4 opts="proto=tcp,port=2049" state=present
+
+    - name: Mount /var/lib/one
+      mount: name=/var/lib/one src="dri-vm00.tchpc.tcd.ie:/one" fstype=nfs4 opts="proto=tcp,port=2049" state=mounted
