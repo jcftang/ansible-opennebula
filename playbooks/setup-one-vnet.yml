@@ -5,8 +5,9 @@
 
   tasks:
     - name: Create vnet template 
-      template: src=../templates/one_vnet_{{ vnet_type }}.net dest=/tmp/one_vnet.net
+      template: src=../templates/one/vnet/{{ vnet_type }} dest=/tmp/one_vnet.net
 
     - name: Create vnet
+      sudo: True
       sudo_user: oneadmin
       command: onevnet create /tmp/one_vnet.net

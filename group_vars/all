@@ -9,6 +9,8 @@ opennebula_db_pass: opennebula
 ceph_frontend: localhost
 nfs_server: 192.168.30.1
 
+ceph_pool: one
+
 vnet_name: private
 vnet_type: ranged
 vnet_network_address: 192.168.0.0
@@ -17,3 +19,6 @@ vnet_gateway: 192.168.0.1
 vnet_dns: 192.168.0.1
 vnet_ip_start: 192.168.0.2
 vnet_ip_end: 192.168.0.254
+
+datastore_name: ceph
+datastore_type: ceph

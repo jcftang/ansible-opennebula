@@ -5,8 +5,9 @@
 
   tasks:
     - name: Create datastore template 
-      template: src=../templates/one_ds_ceph dest=/tmp/one_ds_ceph
+      template: src=../templates/one/datastore/{{ datastore_type }} dest=/tmp/one_ds
 
-    - name: Create ceph datastore
+    - name: Create datastore
+      sudo: True
       sudo_user: oneadmin
-      command: onedatastore create /tmp/one_ds_ceph
+      command: onedatastore create /tmp/one_ds

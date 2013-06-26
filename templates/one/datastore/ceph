@@ -1,9 +1,9 @@
-NAME = "ceph"
+NAME = "{{ datastore_name }}"
 DS_MAD = ceph
 TM_MAD = ceph
 
 # the following line *must* be preset
 DISK_TYPE = RBD
 
-POOL_NAME = one
+POOL_NAME = {{ ceph_pool }}
 HOST = {{ ceph_frontend }} 
