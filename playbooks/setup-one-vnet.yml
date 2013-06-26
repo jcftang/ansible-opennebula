@@ -8,4 +8,5 @@
       template: src=../templates/one_vnet_{{ vnet_type }}.net dest=/tmp/one_vnet.net
 
     - name: Create vnet
-      command: su - oneadmin -c "onevnet create /tmp/one_vnet.net"
+      sudo_user: oneadmin
+      command: onevnet create /tmp/one_vnet.net
