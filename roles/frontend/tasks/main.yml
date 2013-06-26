@@ -57,6 +57,9 @@
   tags:
     - config
 
+- name: start opennebula
+  service: name=opennebula state=started enabled=yes
+
 - name: install sunstone configruation
   template: src=sunstone-server.conf dest=/etc/one/sunstone-server.conf
   notify:
