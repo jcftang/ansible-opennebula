@@ -1,4 +1,4 @@
-Sample playbook for installing open nebula
+# Sample playbook for Deploying OpenNebula
 
 Needed to be able to quickly produce and repeat an install of open nebula.
 
@@ -11,7 +11,7 @@ For testing
 
 For production
 
-* ubuntu 12.04
+* Ubuntu 12.04
 
 ## The setup
 
