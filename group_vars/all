@@ -2,13 +2,12 @@
 # Variables for opennebula
 host_group: opennebula
 
-mysql_root_password: opennebula
-
 opennebula_db: opennebula
 opennebula_db_user: opennebula
 opennebula_db_pass: opennebula
 
 ceph_frontend: localhost
+nfs_server: 192.168.30.1
 
 vnet_name: private
 vnet_network_address: 192.168.0.0
