@@ -1,6 +1,6 @@
-# Sample playbook for Deploying OpenNebula
+# Deploying OpenNebula
 
-Needed to be able to quickly produce and repeat an install of open nebula.
+Needed to be able to quickly produce and repeat an install of OpenNebula.
 
 ## Requirements
 
