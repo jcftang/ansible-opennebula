@@ -39,10 +39,10 @@
   action: mysql_user state=present name={{opennebula_db_user}} password={{opennebula_db_pass}} priv={{opennebula_db}}.*:ALL
 
 - name: copy ceph scripts
-  copy: src=files/opennebula4.0-rbd-format2-transfer-datastore-drivers-v3.tar.gz dest=/tmp/opennebula4.0-rbd-format2-transfer-datastore-drivers-v3.tar.gz
+  copy: src=files/opennebula4.0-rbd-format2-transfer-datastore-drivers-v4.tar.gz dest=/tmp/opennebula4.0-rbd-format2-transfer-datastore-drivers-v4.tar.gz
 
 - name: unpack ceph scripts
-  command: chdir=/tmp creates=/tmp/remotes tar xf opennebula4.0-rbd-format2-transfer-datastore-drivers-v3.tar.gz
+  command: chdir=/tmp creates=/tmp/remotes tar xf opennebula4.0-rbd-format2-transfer-datastore-drivers-v4.tar.gz
 
 - name: copy datastore scripts in place
   command: cp -rf /tmp/remotes/datastore/ceph /var/lib/one/remotes/datastore/
