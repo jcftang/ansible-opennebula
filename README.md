@@ -37,3 +37,16 @@ stored in "playbooks/setup-bridge.yml"
   - look at playbooks/setup-nfs-exports.yml if you just want to use nfs as the shared datastore
   - there are a number of other 'plays' which can aid in setting up an opennebula cluster
 * once the base system is up, the admin can go to the sunstone interface at http://opennebula-frontend:9869/
+
+## Typical testing/development setup process
+
+  git clone https://github.com/jcftang/ansible-opennebula.git
+  cd ansible-opennebula
+  cd hacking
+  vagrant up
+  source env-setup
+  cd ..
+  ansible-playbook site-vagrant.yml
+
+Once the playbook has finished, you should be able to access the VM from
+your machine on this address -- http://192.168.206.110:9869/
