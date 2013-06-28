@@ -40,13 +40,13 @@ stored in "playbooks/setup-bridge.yml"
 
 ## Typical testing/development setup process
 
-  git clone https://github.com/jcftang/ansible-opennebula.git
-  cd ansible-opennebula
-  cd hacking
-  vagrant up
-  source env-setup
-  cd ..
-  ansible-playbook site-vagrant.yml
+    git clone https://github.com/jcftang/ansible-opennebula.git
+    cd ansible-opennebula
+    cd hacking
+    vagrant up
+    source env-setup
+    cd ..
+    ansible-playbook site-vagrant.yml
 
 Once the playbook has finished, you should be able to access the VM from
 your machine on this address -- http://192.168.206.110:9869/
