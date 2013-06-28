@@ -6,6 +6,7 @@
 
   tasks:
     - name: Setup vm hosts
+      sudo: True
       sudo_user: oneadmin
       command: onehost create $item --im kvm --vm kvm --net dummy
       with_items:
