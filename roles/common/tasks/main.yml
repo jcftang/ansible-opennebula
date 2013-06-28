@@ -11,3 +11,5 @@
         - avahi-utils
         - avahi-discover
         - avahi-dnsconfd
+        - ruby-json
+        - facter
