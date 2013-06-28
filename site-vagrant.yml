@@ -1,0 +1,3 @@
+---
+- include: playbooks/devel-vagrant.yml
+- include: site.yml
