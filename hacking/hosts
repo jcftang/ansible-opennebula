@@ -1,5 +1,5 @@
 [opennebula_frontend]
-192.168.206.110
+192.168.206.110 storage_bridge_interface=eth1 storage_bridge_netmask=255.255.0.0 storage_bridge_address=192.168.10.1
 
 [opennebula_compute]
-192.168.206.110
+192.168.206.110 storage_bridge_interface=eth1 storage_bridge_netmask=255.255.0.0 storage_bridge_address=192.168.10.1
