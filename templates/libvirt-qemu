@@ -127,3 +127,7 @@
   # for rbd
   /etc/ceph/ceph.conf r,
   /etc/ceph/ceph.client.admin.keyring r,
+
+ # seems this is needed for recovering "unrecoverable" machines
+ /var/tmp rw,
+ /tmp rw,
