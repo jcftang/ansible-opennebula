@@ -131,3 +131,4 @@
  # seems this is needed for recovering "unrecoverable" machines
  /var/tmp rw,
  /tmp rw,
+ owner /var/lib/one/** rw,
