@@ -18,3 +18,8 @@
 - apt: name=sendmail state=present
 - template: src=sendmail.mc dest=/etc/mail/sendmail.mc
 - service: name=sendmail state=restarted enabled=yes
+
+# enable ntp
+- apt: name=ntp state=present
+- template: src=ntp.conf dest=/etc/ntp.conf
+- service: name=ntp state=restarted enabled=yes
