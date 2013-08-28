@@ -1,0 +1,37 @@
+## backup the /etc/one files and onedb
+##    onedb backup -s localhost -u opennebula -p password -d opennebula  onedb-$(date -I).sql
+## once the above is done
+##    onedb upgrade -s localhost -u opennebula -p password -d opennebula
+---
+- hosts: all
+  user: root
+
+  roles:
+    - { role: ../../roles/proxy }
+
+  tasks:
+    - get_url: url=http://opennebula.org/repo/Debian/repo.key dest=/root/one-debian-repo.key use_proxy=yes
+      environment:
+        https_proxy: http://{{proxy_server}}:{{proxy_port}}
+    - apt_key: file=/root/one-debian-repo.key state=present
+    - copy: src=../templates/opennebula.list dest=/etc/apt/sources.list.d/opennebula.list
+
+- hosts: opennebula_frontend
+  user: root
+
+  pre_tasks:
+    - service: name=opennebula state=stopped
+    - service: name=opennebula-sunstone state=stopped
+
+  tasks:
+    - apt: upgrade=dist update_cache=yes
+
+  post_tasks:
+    - service: name=opennebula state=started
+    - service: name=opennebula-sunstone state=started
+
+- hosts: opennebula_compute
+  user: root
+
+  tasks:
+    - apt: upgrade=dist update_cache=yes

@@ -1,11 +1,15 @@
 ---
 ## install and configure frontend machine
 - name: install debian packages
-  shell: creates=/etc/one/oned.conf dpkg -i /tmp/opennebula-4.0.1-1/*.deb
-  ignore_errors: True
-
-- name: fix up dependencies
-  command: apt-get install -y -f
+  apt: name={{item}} state=present
+  with_items:
+    - opennebula
+    - opennebula-common
+    - opennebula-node
+    - opennebula-ozones
+    - opennebula-sunstone
+    - opennebula-tools
+    - ruby-opennebula
 
 - name: install dependancies
   apt: name=$item state=present

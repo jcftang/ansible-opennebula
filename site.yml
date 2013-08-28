@@ -24,11 +24,11 @@
 
   post_tasks:
     ## common step to get files on to system
-    - name: copy up binaries
-      copy: src=files/Ubuntu-12.10-opennebula-4.0.1-1.tar.gz dest=/tmp/Ubuntu-12.10-opennebula-4.0.1-1.tar.gz
-
-    - name: unpack files
-      command: chdir=/tmp creates=/tmp/opennebula-4.0.1-1/opennebula_4.0.1-1_amd64.deb tar xf Ubuntu-12.10-opennebula-4.0.1-1.tar.gz
+    - get_url: url=http://opennebula.org/repo/Debian/repo.key dest=/root/one-debian-repo.key use_proxy=yes
+      environment:
+        https_proxy: http://{{proxy_server}}:{{proxy_port}}
+    - apt_key: file=/root/one-debian-repo.key state=present
+    - copy: src=templates/opennebula.list dest=/etc/apt/sources.list.d/opennebula.list
 
     - name: /etc/hosts
       template: src=templates/hosts dest=/etc/hosts owner=root group=root
