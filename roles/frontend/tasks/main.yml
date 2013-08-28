@@ -54,6 +54,11 @@
 - name: copy tm scripts in place
   command: cp -rf /tmp/remotes/tm/ceph /var/lib/one/remotes/tm/
 
+- name: install modified init script to not load up proxy settings on starting up oned
+  copy: src=opennebula.init dest=/etc/init.d/opennebula
+  notify:
+    - restart oned
+
 - name: copy oned.conf
   template: src=oned.conf dest=/etc/one/oned.conf
   notify:
