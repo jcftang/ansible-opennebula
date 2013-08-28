@@ -36,7 +36,7 @@ do_start()
 {
     mkdir -p /var/run/one /var/lock/one
     chown oneadmin /var/run/one /var/lock/one
-    su oneadmin -s /bin/sh -c 'one start'
+    su oneadmin -s /bin/sh -c 'env --unset=HTTPS_PROXY --unset=https_proxy --unset=HTTP_PROXY --unset=http_proxy one start'
 }
 
 #
