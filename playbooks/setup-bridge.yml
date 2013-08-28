@@ -7,8 +7,9 @@
 
   vars:
     default_if: eth0
-    
+
   tasks:
+    - apt: name=bridge-utils state=present
     - name: Setup bridge br0 where eth0 connects to this bridge
       template: src=../templates/interfaces.br0 dest=/etc/network/interfaces
       notify:
