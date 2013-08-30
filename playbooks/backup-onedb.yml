@@ -1,0 +1,9 @@
+---
+- hosts: opennebula_frontend
+  user: root
+
+  tasks:
+    - name: Backup onedb
+      sudo: True
+      sudo_user: oneadmin
+      mysql_db: login_host=localhost login_user={{opennebula_db_user}} login_password={{opennebula_db_pass}} name={{opennebula_db}} state=dump target=~/onedb-{{ansible_date_time.epoch}}.sql
