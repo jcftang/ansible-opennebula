@@ -1,5 +1,0 @@
-PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games"
-http_proxy=http://${proxy_server}:${proxy_port}
-https_proxy=http://${proxy_server}:${proxy_port}
-ftp_proxy=http://${proxy_server}:${proxy_port}
-no_proxy=localhost,tchpc.tcd.ie,tcd.ie
