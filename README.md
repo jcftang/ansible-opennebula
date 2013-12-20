@@ -35,6 +35,8 @@ stored in "playbooks/setup-bridge.yml"
 * run the playbooks to deploy the front-end and compute nodes
   - look at playbooks/setup-bridge.yml if you are interested in configuring a bridge
   - look at playbooks/setup-nfs-exports.yml if you just want to use nfs as the shared datastore
+  - look at playbooks/setup-apparmor.yml to fix up apparmor issue
+  - deploy ceph keys and configs to compute nodes if necessary
   - there are a number of other 'plays' which can aid in setting up an opennebula cluster
 * once the base system is up, the admin can go to the sunstone interface at http://opennebula-frontend:9869/
 
