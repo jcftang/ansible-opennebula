@@ -1,7 +1,7 @@
 ---
 ## install kvm node
 - name: install debian packages
-  apt: name={{item}} state=present
+  apt: name={{item}} state=latest
   with_items:
     - opennebula-node
     - opennebula-common
