@@ -9,10 +9,15 @@
         - python-software-properties
         - python-virtualenv
         - python-apt
+        - linux-generic-lts-saucy
       environment:
         http_proxy: http://134.226.112.43:8080
         https_proxy: http://134.226.112.43:8080
     - group: name=cloud gid=112
+    - apt: name={{item}} state=present
+      with_items:
+        - qemu-kvm
+        - libvirt-bin
     - user: name=oneadmin uid=107 home=/var/lib/one groups=cloud,libvirtd,kvm group=cloud append=yes
 
   roles:
@@ -21,7 +26,7 @@
 
   post_tasks:
     ## common step to get files on to system
-    - get_url: url=http://opennebula.org/repo/Debian/repo.key dest=/root/one-debian-repo.key use_proxy=yes
+    - get_url: url=http://downloads.opennebula.org/repo/Debian/repo.key dest=/root/one-debian-repo.key use_proxy=yes
       environment:
         https_proxy: http://{{proxy_server}}:{{proxy_port}}
     - apt_key: file=/root/one-debian-repo.key state=present
@@ -73,3 +78,26 @@
         - ceph
         - ceph-common
         - ceph-fs-common
+
+- include: playbooks/setup-nfs-exports.yml
+- include: playbooks/setup-apparmor.yml
+
+# take advantage that salt remote execute can be done outside of ssh
+- hosts: all
+  user: root
+
+  tasks:
+    - apt_repository: repo='ppa:saltstack/salt' state=present
+    - apt: name={{item}} state=latest
+      with_items:
+        - salt-minion
+    - template: src=templates/salt/minion dest=/etc/salt/minion owner=root group=root
+    - service: name=salt-minion state=restarted
+
+- hosts: opennebula_frontend[0]
+  user: root
+  tasks:
+    - apt_repository: repo='ppa:saltstack/salt' state=present
+    - apt: name={{item}} state=latest
+      with_items:
+        - salt-master
