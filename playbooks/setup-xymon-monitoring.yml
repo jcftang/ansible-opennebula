@@ -1,0 +1,12 @@
+# order matters!
+---
+- hosts: all:!monitoring
+  user: root
+  #  accelerate: True
+  roles:
+    - { role: ../../roles/xymon-client }
+
+- hosts: monitoring
+  user: root
+  tasks:
+    - template: src=../templates/xymon-100-opennebula.cfg dest=/etc/xymon/hosts.d/100-opennebula.cfg owner=root group=root mode=0644

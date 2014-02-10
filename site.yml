@@ -101,3 +101,14 @@
     - apt: name={{item}} state=latest
       with_items:
         - salt-master
+
+- hosts: all:!monitoring
+  user: root
+  roles:
+    - { role: xymon-client }
+
+- hosts:monitoring
+  user: root
+
+  tasks:
+     - template: src=templates/xymon-100-opennebula.cfg dest=/etc/xymon/hosts.d/100-opennebula.cfg owner=root group=root mode=0644

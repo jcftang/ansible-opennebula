@@ -1,0 +1,15 @@
+---
+- apt_repository: repo="ppa:thwint/tom" state=present
+
+- apt: name={{item}} state=present
+  with_items:
+    - xymon-client
+    - xymon-plugins
+
+- service: name=xymon-client state=started
+
+- template: src=precise/xymonclient.cfg dest=/etc/xymon/xymonclient.cfg owner=root group=root
+  notify:
+    - restart xymon-client
+
+- cron: special_time=reboot name="start xymon-client on reboot" job="service xymon-client start"
