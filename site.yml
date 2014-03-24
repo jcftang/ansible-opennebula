@@ -43,7 +43,7 @@
         - /root/.ssh/id_rsa
 
     - name: Upload ssh keypair and config from the frontend node for root account
-      copy: src=private/root/{{item}} dest=/root/.ssh/$item owner=root group=root mode=0600
+      copy: src=private/root/{{item}} dest=/root/.ssh/{{item}} owner=root group=root mode=0600
       with_items:
         - id_rsa.pub
         - id_rsa
