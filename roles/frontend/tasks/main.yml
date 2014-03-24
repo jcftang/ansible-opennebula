@@ -82,7 +82,7 @@
   user: name=oneadmin generate_ssh_key=yes
 
 - name: Fetch generated public key from frontend oneadmin account
-  fetch: src=$item dest=private/ flat=yes
+  fetch: src={{item}} dest=private/ flat=yes
   with_items:
     - /var/lib/one/.ssh/id_rsa.pub
     - /var/lib/one/.ssh/id_rsa

@@ -7,12 +7,12 @@
     - opennebula-common
 
 - name: install kvm dependancies
-  apt: name=$item state=present
+  apt: name={{item}} state=present
   with_items:
     - qemu
 
 - name: install nfs dependancies
-  apt: name=$item state=present
+  apt: name={{item}} state=present
   with_items:
     - nfs-common
 

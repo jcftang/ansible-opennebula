@@ -1,10 +1,10 @@
 ---
-- hosts: all
+- hosts: all;!monitoring
   user: root
 
   pre_tasks:
     - name: Install dependancies
-      apt: name=$item state=present update-cache=yes
+      apt: name={{item}} state=present update-cache=yes cache_valid_time=3600
       with_items:
         - python-software-properties
         - python-virtualenv
@@ -26,26 +26,24 @@
 
   post_tasks:
     ## common step to get files on to system
-    - get_url: url=http://downloads.opennebula.org/repo/Debian/repo.key dest=/root/one-debian-repo.key use_proxy=yes
-      environment:
-        https_proxy: http://{{proxy_server}}:{{proxy_port}}
+    - copy: src=files/one-debian-repo.key dest=/root/one-debian-repo.key
     - apt_key: file=/root/one-debian-repo.key state=present
     - copy: src=templates/opennebula.list dest=/etc/apt/sources.list.d/opennebula.list
 
-    - name: /etc/hosts
-      template: src=templates/hosts dest=/etc/hosts owner=root group=root
+    #- name: /etc/hosts
+    #  template: src=templates/hosts dest=/etc/hosts owner=root group=root
 
     - name: Generate_keys for root
       user: name=root generate_ssh_key=yes
 
     - name: Fetch generated public key from frontend root account
-      fetch: src=$item dest=private/root/ flat=yes
+      fetch: src={{item}} dest=private/root/ flat=yes
       with_items:
         - /root/.ssh/id_rsa.pub
         - /root/.ssh/id_rsa
 
     - name: Upload ssh keypair and config from the frontend node for root account
-      copy: src=private/root/$item dest=/root/.ssh/$item owner=root group=root mode=0600
+      copy: src=private/root/{{item}} dest=/root/.ssh/$item owner=root group=root mode=0600
       with_items:
         - id_rsa.pub
         - id_rsa
@@ -69,21 +67,17 @@
   roles:
     - compute
   tasks:
-    - apt_key: id=17ED316D url=https://raw.github.com/ceph/ceph/master/keys/release.asc state=present
-      environment:
-        https_proxy: http://{{proxy_server}}:{{proxy_port}}
+    - copy: src=files/ceph-release.asc dest=/root/ceph-release.asc
+    - apt_key: file=/root/ceph-release.asc state=present
     - copy: src=files/ceph.list dest=/etc/apt/sources.list.d/ceph.list owner=root group=root mode=0644
-    - apt: name={{ item }} state=present
+    - apt: name={{ item }} state=latest
       with_items:
         - ceph
         - ceph-common
         - ceph-fs-common
 
-- include: playbooks/setup-nfs-exports.yml
-- include: playbooks/setup-apparmor.yml
-
 # take advantage that salt remote execute can be done outside of ssh
-- hosts: all
+- hosts: all;!monitoring
   user: root
 
   tasks:
@@ -102,13 +96,17 @@
       with_items:
         - salt-master
 
-- hosts: all:!monitoring
+- hosts: all;!monitoring
   user: root
   roles:
     - { role: xymon-client }
 
-- hosts:monitoring
+- hosts: monitoring
   user: root
 
   tasks:
      - template: src=templates/xymon-100-opennebula.cfg dest=/etc/xymon/hosts.d/100-opennebula.cfg owner=root group=root mode=0644
+
+# make sure help scripts are run
+- include: playbooks/setup-nfs-exports.yml
+- include: playbooks/setup-apparmor.yml
