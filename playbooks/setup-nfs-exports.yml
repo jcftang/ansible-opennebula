@@ -34,6 +34,7 @@
   user: root
 
   tasks:
+    - apt: name=nfs-common state=present
     - name: Create /var/lib/one mount
       mount: name=/var/lib/one src="{{nfs_server}}:/one" fstype=nfs4 opts="proto=tcp,port=2049" state=present
 
