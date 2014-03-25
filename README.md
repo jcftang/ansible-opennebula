@@ -52,3 +52,39 @@ stored in "playbooks/setup-bridge.yml"
 
 Once the playbook has finished, you should be able to access the VM from
 your machine on this address -- http://192.168.206.110:9869/
+
+## Typical deployment process
+
+    git clone https://github.com/jcftang/ansible-opennebula.git
+    cd ansible-opennebula
+    vi hosts.production # create this file ...
+    ansible-playbook -i hosts.production playbooks/setup-bridge.yml # setups bridge
+    ansible-playbook -i hosts.production site.yml # setups everything else
+
+The hosts.production file should have something like ....
+
+  [opennebula_frontend]
+  dri-vm00.tchpc.tcd.ie storage_bridge_interface=eth1 storage_bridge_netmask=255.255.0.0 storage_bridge_address=192.168.30.1 opennebula_db_pass=foobar
+
+  [opennebula_compute]
+  dri-vm01.tchpc.tcd.ie storage_bridge_interface=eth1 storage_bridge_netmask=255.255.0.0 storage_bridge_address=192.168.40.1
+  dri-vm02.tchpc.tcd.ie storage_bridge_interface=eth1 storage_bridge_netmask=255.255.0.0 storage_bridge_address=192.168.40.2
+  dri-vm03.tchpc.tcd.ie storage_bridge_interface=eth1 storage_bridge_netmask=255.255.0.0 storage_bridge_address=192.168.40.3
+  dri-vm04.tchpc.tcd.ie storage_bridge_interface=eth1 storage_bridge_netmask=255.255.0.0 storage_bridge_address=192.168.40.4
+  dri-vm05.tchpc.tcd.ie storage_bridge_interface=eth1 storage_bridge_netmask=255.255.0.0 storage_bridge_address=192.168.40.5
+  dri-vm06.tchpc.tcd.ie storage_bridge_interface=eth1 storage_bridge_netmask=255.255.0.0 storage_bridge_address=192.168.40.6
+  dri-vm07.tchpc.tcd.ie storage_bridge_interface=eth1 storage_bridge_netmask=255.255.0.0 storage_bridge_address=192.168.40.7
+  dri-vm08.tchpc.tcd.ie storage_bridge_interface=eth1 storage_bridge_netmask=255.255.0.0 storage_bridge_address=192.168.40.8
+
+  [opennebula_frontend:vars]
+  storage_bridge_name=storagebr0
+  uuid_one=SOMEUUID
+  cephx_one=SOMECEPHKEY
+
+  [opennebula_compute:vars]
+  storage_bridge_name=storagebr0
+  uuid_one=SOMEUUID
+  cephx_one=SOMECEPHKEY
+
+  [monitoring]
+  xymon.domain
