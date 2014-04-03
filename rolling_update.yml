@@ -1,0 +1,20 @@
+---
+- hosts: all
+  user: root
+
+  tasks:
+    - group_by: key="{{ansible_distribution_release}}"
+
+- hosts: precise
+  user: root
+  serial: 3
+
+  tasks:
+    - apt: upgrade=yes update_cache=yes cache_valid_time=3600
+
+- hosts: Carbon
+  user: root
+  serial: 3
+
+  tasks:
+    - command: yum upgrade -y
