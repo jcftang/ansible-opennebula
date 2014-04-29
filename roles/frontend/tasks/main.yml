@@ -6,7 +6,6 @@
     - opennebula
     - opennebula-common
     - opennebula-node
-    - opennebula-ozones
     - opennebula-sunstone
     - opennebula-tools
     - ruby-opennebula
