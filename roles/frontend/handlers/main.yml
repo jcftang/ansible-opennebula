@@ -4,3 +4,8 @@
 
 - name: restart oned
   service: name=opennebula state=restarted
+
+- name: restart oneflow
+  service: name=opennebula-oneflow state=restarted
+
+

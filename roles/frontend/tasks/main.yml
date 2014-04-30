@@ -76,6 +76,11 @@
 - name: start sunstone
   service: name=opennebula-sunstone state=started enabled=yes
 
+- name: install oneflow configruation
+  template: src=oneflow-server.conf dest=/etc/one/oneflow-server.conf
+  notify:
+    - restart oneflow
+
 ## generate public/private keys, this should be shared across the ONE frontend and nodes in the oneadmin account
 - name: Generate_keys for oneadmin
   user: name=oneadmin generate_ssh_key=yes
