@@ -55,6 +55,9 @@
     - name: Install authorized_keys for root
       authorized_key: user=root key="{{ lookup('file', 'private/root/id_rsa.pub') }}" state=present
 
+    - name: turn on arp filtering
+      copy: src=files/sysctl-arpfilter.conf dest=/etc/sysctl.d/10-arpfilter.conf owner=root group=root
+
 - hosts: opennebula_frontend
   user: root
 
