@@ -1,3 +1,7 @@
+## WARNING
+
+This repo is no longer maintained by a TCD/TCHPC/DRI employee please visit https://www.tchpc.tcd.ie/tchpcstaff/ or http://www.dri.ie/dri-team and contact an existing employee for more up to date implementations etc...
+
 # Deploying OpenNebula
 
 Needed to be able to quickly produce and repeat an install of OpenNebula.
